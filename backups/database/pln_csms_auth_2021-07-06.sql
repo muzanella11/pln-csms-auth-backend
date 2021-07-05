@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.31)
 # Database: pln_csms_auth
-# Generation Time: 2021-07-05 18:21:21 +0000
+# Generation Time: 2021-07-05 19:16:09 +0000
 # ************************************************************
 
 
@@ -64,6 +64,18 @@ CREATE TABLE `user_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+LOCK TABLES `user_roles` WRITE;
+/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
+
+INSERT INTO `user_roles` (`id`, `name`, `label`, `privilege_type`, `created_at`, `updated_at`)
+VALUES
+	(1,'super-admin','Super Admin','1','2021-07-05 19:03:14','2021-07-05 19:06:58'),
+	(2,'admin','Admin','2','2021-07-05 19:03:38','2021-07-05 19:06:58'),
+	(3,'staff','Staff','3','2021-07-05 19:04:03','2021-07-05 19:06:58'),
+	(4,'user','User','4','2021-07-05 19:04:11','2021-07-05 19:06:58');
+
+/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
