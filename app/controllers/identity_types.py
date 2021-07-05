@@ -1,14 +1,14 @@
 from app.core.controllers import BaseControllers
-from app.services.user_role_service import UserRoleService
+from app.services.identity_type_service import IdentityTypeService
 import re
 
-class UserRoles(BaseControllers):
+class IdentityTypes(BaseControllers):
     request = None
 
     TABLES = {}
 
     def __init__(self, request = None):
-        super(UserRoles, self).__init__()
+        super(IdentityTypes, self).__init__()
 
         self.request = request
 
@@ -35,7 +35,7 @@ class UserRoles(BaseControllers):
             'filter': self.request.args
         }
 
-        data_sql = UserRoleService().generate_user_roles_list(data_model)
+        data_sql = IdentityTypeService().generate_identity_type_list(data_model)
 
         data['data'] = data_sql.get('data')
         data['total_data'] = data_sql.get('total_data')
@@ -56,7 +56,7 @@ class UserRoles(BaseControllers):
             'total_data': 0
         }
 
-        data_sql = UserRoleService().generate_user_roles_detail(columns, value)
+        data_sql = IdentityTypeService().generate_identity_type_detail(columns, value)
 
         data['data'] = data_sql.get('data')
         data['total_data'] = data_sql.get('total_data')
@@ -73,19 +73,19 @@ class UserRoles(BaseControllers):
         request_data = self.request.json
         name = request_data.get('name')
         label = request_data.get('label')
-        privilege_type = request_data.get('privilege_type')
+        description = request_data.get('description')
         
         data_model = {
             'name': name,
             'label': label,
-            'privilege_type': privilege_type
+            'description': description
         }
 
-        UserRoleService().create_user_roles(data_model)
+        IdentityTypeService().create_identity_type(data_model)
 
         return self.create_response(data)
 
-    def update_data(self, user_role_id = None):
+    def update_data(self, identity_type_id = None):
         data = {
             'code': 200,
             'message': 'Success',
@@ -96,27 +96,27 @@ class UserRoles(BaseControllers):
 
         name = request_data.get('name')
         label = request_data.get('label')
-        privilege_type = request_data.get('privilege_type')
+        description = request_data.get('description')
 
-        queries = "name='{}', label='{}', privilege_type='{}'".format(name, label, privilege_type)
+        queries = "name='{}', label='{}', description='{}'".format(name, label, description)
         
         data_model = {
-            'id': user_role_id,
+            'id': identity_type_id,
             'data': queries
         }
 
-        UserRoleService().update_user_roles(data_model)
+        IdentityTypeService().update_identity_type(data_model)
 
         return self.create_response(data)
 
-    def delete_data(self, user_role_id = None):
+    def delete_data(self, identity_type_id = None):
         data = {
             'code': 200,
             'message': 'Success',
             'total_data': 0
         }
 
-        UserRoleService().delete_user_roles(user_role_id)
+        IdentityTypeService().delete_identity_type(identity_type_id)
 
         return self.create_response(data)
         

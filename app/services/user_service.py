@@ -1,5 +1,6 @@
 from app import app
 from app.services.user_role_service import UserRoleService
+from app.services.identity_type_service import IdentityTypeService
 from app.models.model_users import ModelUsers
 from app.core.secrets import Secrets
 
@@ -31,6 +32,14 @@ class UserService(object):
                 
                 item_raw_data['user_role'] = content_data
 
+                # Get Identity Type
+                identity_type_id = item_raw_data.get('identity_type')
+
+                content_data = IdentityTypeService().generate_identity_type_detail('id', identity_type_id)
+                content_data = content_data.get('data')
+                
+                item_raw_data['identity_type'] = content_data
+
         self.base_result['data'] = raw_data
         self.base_result['total_data'] = data_sql.get('total_rows')
 
@@ -50,6 +59,14 @@ class UserService(object):
 
             raw_data['user_role'] = content_data
 
+            # Get Identity Type
+            identity_type_id = raw_data.get('identity_type')
+
+            content_data = IdentityTypeService().generate_identity_type_detail('id', identity_type_id)
+            content_data = content_data.get('data')
+
+            raw_data['identity_type'] = content_data
+
         self.base_result['data'] = raw_data
         self.base_result['total_data'] = data_sql.get('total_rows')
 
@@ -62,7 +79,7 @@ class UserService(object):
         }).encrypt()
 
         data_model['password'] = password
-        
+
         # To Do :: Create validation here
         getattr(ModelUsers(), 'create_data')(data_model)
 

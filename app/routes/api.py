@@ -3,6 +3,7 @@ from app import app
 from app.controllers.health_indicator import HealthIndicator
 from app.libraries.slug_validate import SlugValidate
 from app.controllers.privilege_types import PrivilegeTypes
+from app.controllers.identity_types import IdentityTypes
 from app.controllers.user_roles import UserRoles
 from app.controllers.users import Users
 
@@ -42,6 +43,34 @@ def privilegetypeupdateapi(id):
 @app.route('/privilege-type/<id>', methods=['DELETE'])
 def privilegetypedeleteapi(id):
     return PrivilegeTypes(request).delete_data(id)
+##################
+
+## Identity Types ##
+@app.route('/identity-type')
+def identitytypelistapi():
+    return IdentityTypes(request).get_list()
+
+@app.route('/identity-type/<value>')
+def identitytypedetailapi(value):
+    if value.isnumeric():
+        return IdentityTypes(request).get_detail('id', value)
+
+    if SlugValidate().run(value):
+        return IdentityTypes(request).get_detail('error', value)
+
+    return IdentityTypes(request).get_detail('name', value)
+
+@app.route('/identity-type', methods=['POST'])
+def identitytypecreateapi():
+    return IdentityTypes(request).create_data()
+
+@app.route('/identity-type/<id>', methods=['PUT'])
+def identitytypeupdateapi(id):
+    return IdentityTypes(request).update_data(id)
+
+@app.route('/identity-type/<id>', methods=['DELETE'])
+def identitytypedeleteapi(id):
+    return IdentityTypes(request).delete_data(id)
 ##################
 
 ## User Role ##

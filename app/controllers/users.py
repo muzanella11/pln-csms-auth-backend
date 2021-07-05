@@ -101,7 +101,7 @@ class Users(BaseControllers):
 
         return self.create_response(data)
 
-    def update_data(self, privilege_id = None):
+    def update_data(self, user_id = None):
         data = {
             'code': 200,
             'message': 'Success',
@@ -133,7 +133,7 @@ class Users(BaseControllers):
             avatar='{}'".format(fullname, email, nik, dob, gender, identity, identity_type, user_role, address, avatar)
         
         data_model = {
-            'id': privilege_id,
+            'id': user_id,
             'data': queries
         }
 
@@ -141,14 +141,14 @@ class Users(BaseControllers):
 
         return self.create_response(data)
 
-    def delete_data(self, privilege_id = None):
+    def delete_data(self, user_id = None):
         data = {
             'code': 200,
             'message': 'Success',
             'total_data': 0
         }
 
-        UserService().delete_user(privilege_id)
+        UserService().delete_user(user_id)
 
         return self.create_response(data)
         
