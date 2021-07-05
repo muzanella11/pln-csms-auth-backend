@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.31)
 # Database: pln_csms_auth
-# Generation Time: 2021-07-05 19:16:09 +0000
+# Generation Time: 2021-07-05 21:18:27 +0000
 # ************************************************************
 
 
@@ -18,6 +18,32 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table identity_types
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `identity_types`;
+
+CREATE TABLE `identity_types` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `label` varchar(100) DEFAULT NULL,
+  `description` text,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+LOCK TABLES `identity_types` WRITE;
+/*!40000 ALTER TABLE `identity_types` DISABLE KEYS */;
+
+INSERT INTO `identity_types` (`id`, `name`, `label`, `description`, `created_at`, `updated_at`)
+VALUES
+	(1,'ktp','Kartu Tanda Penduduk','Kartu Tanda Penduduk','2021-07-05 21:11:48','2021-07-05 21:12:07');
+
+/*!40000 ALTER TABLE `identity_types` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table privilege_types
@@ -58,7 +84,7 @@ CREATE TABLE `user_roles` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `label` varchar(50) DEFAULT NULL,
-  `privilege_type` varchar(50) DEFAULT NULL,
+  `privilege_type` int(10) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -69,12 +95,47 @@ LOCK TABLES `user_roles` WRITE;
 
 INSERT INTO `user_roles` (`id`, `name`, `label`, `privilege_type`, `created_at`, `updated_at`)
 VALUES
-	(1,'super-admin','Super Admin','1','2021-07-05 19:03:14','2021-07-05 19:06:58'),
-	(2,'admin','Admin','2','2021-07-05 19:03:38','2021-07-05 19:06:58'),
-	(3,'staff','Staff','3','2021-07-05 19:04:03','2021-07-05 19:06:58'),
-	(4,'user','User','4','2021-07-05 19:04:11','2021-07-05 19:06:58');
+	(1,'super-admin','Super Admin',1,'2021-07-05 19:03:14','2021-07-05 19:06:58'),
+	(2,'admin','Admin',2,'2021-07-05 19:03:38','2021-07-05 19:06:58'),
+	(3,'staff','Staff',3,'2021-07-05 19:04:03','2021-07-05 19:06:58'),
+	(4,'user','User',4,'2021-07-05 19:04:11','2021-07-05 19:06:58');
 
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table users
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `fullname` varchar(50) DEFAULT NULL,
+  `email` text,
+  `password` text,
+  `nik` varchar(50) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `gender` int(1) DEFAULT NULL,
+  `identity` varchar(50) DEFAULT NULL,
+  `identity_type` int(10) DEFAULT NULL,
+  `user_role` varchar(50) DEFAULT NULL,
+  `address` text,
+  `avatar` text,
+  `session_token` text,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+
+INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `nik`, `dob`, `gender`, `identity`, `identity_type`, `user_role`, `address`, `avatar`, `session_token`, `created_at`, `updated_at`)
+VALUES
+	(1,'Super Admin','superadmin@gmail.com','gAAAAABg43bh4Up0X4ukcVzVqpwNeLRlwl5IY0JyD_KLzv9b77spsWUGVwWnd0vZRpYARh_8--HdinSI-z2J6oEKCVaEnsICFQ==','123','1945-08-17',1,'12345678',1,'1','jalan mana aja','avatar',NULL,'2021-07-05 21:17:21',NULL);
+
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

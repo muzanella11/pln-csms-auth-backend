@@ -1,14 +1,14 @@
 from app.core.controllers import BaseControllers
-from app.services.privilege_type_service import PrivilegeTypeService
+from app.services.identity_type_service import IdentityTypeService
 import re
 
-class PrivilegeTypes(BaseControllers):
+class IdentityTypes(BaseControllers):
     request = None
 
     TABLES = {}
 
     def __init__(self, request = None):
-        super(PrivilegeTypes, self).__init__()
+        super(IdentityTypes, self).__init__()
 
         self.request = request
 
@@ -35,7 +35,7 @@ class PrivilegeTypes(BaseControllers):
             'filter': self.request.args
         }
 
-        data_sql = PrivilegeTypeService().generate_privilege_type_list(data_model)
+        data_sql = IdentityTypeService().generate_identity_type_list(data_model)
 
         data['data'] = data_sql.get('data')
         data['total_data'] = data_sql.get('total_data')
@@ -56,7 +56,7 @@ class PrivilegeTypes(BaseControllers):
             'total_data': 0
         }
 
-        data_sql = PrivilegeTypeService().generate_privilege_type_detail(columns, value)
+        data_sql = IdentityTypeService().generate_identity_type_detail(columns, value)
 
         data['data'] = data_sql.get('data')
         data['total_data'] = data_sql.get('total_data')
@@ -81,11 +81,11 @@ class PrivilegeTypes(BaseControllers):
             'description': description
         }
 
-        PrivilegeTypeService().create_privilege_type(data_model)
+        IdentityTypeService().create_identity_type(data_model)
 
         return self.create_response(data)
 
-    def update_data(self, privilege_id = None):
+    def update_data(self, identity_type_id = None):
         data = {
             'code': 200,
             'message': 'Success',
@@ -101,22 +101,22 @@ class PrivilegeTypes(BaseControllers):
         queries = "name='{}', label='{}', description='{}'".format(name, label, description)
         
         data_model = {
-            'id': privilege_id,
+            'id': identity_type_id,
             'data': queries
         }
 
-        PrivilegeTypeService().update_privilege_type(data_model)
+        IdentityTypeService().update_identity_type(data_model)
 
         return self.create_response(data)
 
-    def delete_data(self, privilege_id = None):
+    def delete_data(self, identity_type_id = None):
         data = {
             'code': 200,
             'message': 'Success',
             'total_data': 0
         }
 
-        PrivilegeTypeService().delete_privilege_type(privilege_id)
+        IdentityTypeService().delete_identity_type(identity_type_id)
 
         return self.create_response(data)
         

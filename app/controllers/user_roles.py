@@ -38,7 +38,7 @@ class UserRoles(BaseControllers):
         data_sql = UserRoleService().generate_user_roles_list(data_model)
 
         data['data'] = data_sql.get('data')
-        data['total_data'] = data_sql.get('total_rows')
+        data['total_data'] = data_sql.get('total_data')
 
         return self.create_response(data)
 
@@ -59,7 +59,7 @@ class UserRoles(BaseControllers):
         data_sql = UserRoleService().generate_user_roles_detail(columns, value)
 
         data['data'] = data_sql.get('data')
-        data['total_data'] = data_sql.get('total_rows')
+        data['total_data'] = data_sql.get('total_data')
 
         return self.create_response(data)
 
@@ -85,7 +85,7 @@ class UserRoles(BaseControllers):
 
         return self.create_response(data)
 
-    def update_data(self, privilege_id = None):
+    def update_data(self, user_role_id = None):
         data = {
             'code': 200,
             'message': 'Success',
@@ -101,7 +101,7 @@ class UserRoles(BaseControllers):
         queries = "name='{}', label='{}', privilege_type='{}'".format(name, label, privilege_type)
         
         data_model = {
-            'id': privilege_id,
+            'id': user_role_id,
             'data': queries
         }
 
@@ -109,14 +109,14 @@ class UserRoles(BaseControllers):
 
         return self.create_response(data)
 
-    def delete_data(self, privilege_id = None):
+    def delete_data(self, user_role_id = None):
         data = {
             'code': 200,
             'message': 'Success',
             'total_data': 0
         }
 
-        UserRoleService().delete_user_roles(privilege_id)
+        UserRoleService().delete_user_roles(user_role_id)
 
         return self.create_response(data)
         

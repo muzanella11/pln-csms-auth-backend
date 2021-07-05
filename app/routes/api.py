@@ -3,7 +3,9 @@ from app import app
 from app.controllers.health_indicator import HealthIndicator
 from app.libraries.slug_validate import SlugValidate
 from app.controllers.privilege_types import PrivilegeTypes
+from app.controllers.identity_types import IdentityTypes
 from app.controllers.user_roles import UserRoles
+from app.controllers.users import Users
 
 @app.route('/api')
 def helloapi():
@@ -43,6 +45,34 @@ def privilegetypedeleteapi(id):
     return PrivilegeTypes(request).delete_data(id)
 ##################
 
+## Identity Types ##
+@app.route('/identity-type')
+def identitytypelistapi():
+    return IdentityTypes(request).get_list()
+
+@app.route('/identity-type/<value>')
+def identitytypedetailapi(value):
+    if value.isnumeric():
+        return IdentityTypes(request).get_detail('id', value)
+
+    if SlugValidate().run(value):
+        return IdentityTypes(request).get_detail('error', value)
+
+    return IdentityTypes(request).get_detail('name', value)
+
+@app.route('/identity-type', methods=['POST'])
+def identitytypecreateapi():
+    return IdentityTypes(request).create_data()
+
+@app.route('/identity-type/<id>', methods=['PUT'])
+def identitytypeupdateapi(id):
+    return IdentityTypes(request).update_data(id)
+
+@app.route('/identity-type/<id>', methods=['DELETE'])
+def identitytypedeleteapi(id):
+    return IdentityTypes(request).delete_data(id)
+##################
+
 ## User Role ##
 @app.route('/user-role')
 def userrolelistapi():
@@ -69,4 +99,32 @@ def userroleupdateapi(id):
 @app.route('/user-role/<id>', methods=['DELETE'])
 def userroledeleteapi(id):
     return UserRoles(request).delete_data(id)
+##################
+
+## Users ##
+@app.route('/users')
+def userslistapi():
+    return Users(request).get_list()
+
+@app.route('/users/<value>')
+def usersdetailapi(value):
+    if value.isnumeric():
+        return Users(request).get_detail('id', value)
+
+    if SlugValidate().run(value):
+        return Users(request).get_detail('error', value)
+
+    return Users(request).get_detail('fullname', value)
+
+@app.route('/users', methods=['POST'])
+def userscreateapi():
+    return Users(request).create_data()
+
+@app.route('/users/<id>', methods=['PUT'])
+def usersupdateapi(id):
+    return Users(request).update_data(id)
+
+@app.route('/users/<id>', methods=['DELETE'])
+def usersdeleteapi(id):
+    return Users(request).delete_data(id)
 ##################
