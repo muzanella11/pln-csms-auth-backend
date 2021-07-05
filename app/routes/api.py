@@ -4,6 +4,7 @@ from app.controllers.health_indicator import HealthIndicator
 from app.libraries.slug_validate import SlugValidate
 from app.controllers.privilege_types import PrivilegeTypes
 from app.controllers.user_roles import UserRoles
+from app.controllers.users import Users
 
 @app.route('/api')
 def helloapi():
@@ -69,4 +70,32 @@ def userroleupdateapi(id):
 @app.route('/user-role/<id>', methods=['DELETE'])
 def userroledeleteapi(id):
     return UserRoles(request).delete_data(id)
+##################
+
+## Users ##
+@app.route('/users')
+def userslistapi():
+    return Users(request).get_list()
+
+@app.route('/users/<value>')
+def usersdetailapi(value):
+    if value.isnumeric():
+        return Users(request).get_detail('id', value)
+
+    if SlugValidate().run(value):
+        return Users(request).get_detail('error', value)
+
+    return Users(request).get_detail('fullname', value)
+
+@app.route('/users', methods=['POST'])
+def userscreateapi():
+    return Users(request).create_data()
+
+@app.route('/users/<id>', methods=['PUT'])
+def usersupdateapi(id):
+    return Users(request).update_data(id)
+
+@app.route('/users/<id>', methods=['DELETE'])
+def usersdeleteapi(id):
+    return Users(request).delete_data(id)
 ##################

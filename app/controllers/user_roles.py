@@ -38,7 +38,7 @@ class UserRoles(BaseControllers):
         data_sql = UserRoleService().generate_user_roles_list(data_model)
 
         data['data'] = data_sql.get('data')
-        data['total_data'] = data_sql.get('total_rows')
+        data['total_data'] = data_sql.get('total_data')
 
         return self.create_response(data)
 
@@ -59,7 +59,7 @@ class UserRoles(BaseControllers):
         data_sql = UserRoleService().generate_user_roles_detail(columns, value)
 
         data['data'] = data_sql.get('data')
-        data['total_data'] = data_sql.get('total_rows')
+        data['total_data'] = data_sql.get('total_data')
 
         return self.create_response(data)
 

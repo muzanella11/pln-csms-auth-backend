@@ -1,14 +1,14 @@
 from app.core.controllers import BaseControllers
-from app.services.privilege_type_service import PrivilegeTypeService
+from app.services.user_service import UserService
 import re
 
-class PrivilegeTypes(BaseControllers):
+class Users(BaseControllers):
     request = None
 
     TABLES = {}
 
     def __init__(self, request = None):
-        super(PrivilegeTypes, self).__init__()
+        super(Users, self).__init__()
 
         self.request = request
 
@@ -35,7 +35,7 @@ class PrivilegeTypes(BaseControllers):
             'filter': self.request.args
         }
 
-        data_sql = PrivilegeTypeService().generate_privilege_type_list(data_model)
+        data_sql = UserService().generate_user_list(data_model)
 
         data['data'] = data_sql.get('data')
         data['total_data'] = data_sql.get('total_data')
@@ -56,7 +56,7 @@ class PrivilegeTypes(BaseControllers):
             'total_data': 0
         }
 
-        data_sql = PrivilegeTypeService().generate_privilege_type_detail(columns, value)
+        data_sql = UserService().generate_user_detail(columns, value)
 
         data['data'] = data_sql.get('data')
         data['total_data'] = data_sql.get('total_data')
@@ -71,17 +71,33 @@ class PrivilegeTypes(BaseControllers):
         }
 
         request_data = self.request.json
-        name = request_data.get('name')
-        label = request_data.get('label')
-        description = request_data.get('description')
+        fullname = request_data.get('fullname')
+        email = request_data.get('email')
+        password = request_data.get('password')
+        nik = request_data.get('nik')
+        dob = request_data.get('dob')
+        gender = request_data.get('gender')
+        identity = request_data.get('identity')
+        identity_type = request_data.get('identity_type')
+        user_role = request_data.get('user_role')
+        address = request_data.get('address')
+        avatar = request_data.get('avatar')
         
         data_model = {
-            'name': name,
-            'label': label,
-            'description': description
+            'fullname': fullname,
+            'email': email,
+            'password': password,
+            'nik': nik,
+            'dob': dob,
+            'gender': gender,
+            'identity': identity,
+            'identity_type': identity_type,
+            'user_role': user_role,
+            'address': address,
+            'avatar': avatar
         }
 
-        PrivilegeTypeService().create_privilege_type(data_model)
+        UserService().create_user(data_model)
 
         return self.create_response(data)
 
@@ -94,18 +110,34 @@ class PrivilegeTypes(BaseControllers):
 
         request_data = self.request.json
 
-        name = request_data.get('name')
-        label = request_data.get('label')
-        description = request_data.get('description')
+        fullname = request_data.get('fullname')
+        email = request_data.get('email')
+        nik = request_data.get('nik')
+        dob = request_data.get('dob')
+        gender = request_data.get('gender')
+        identity = request_data.get('identity')
+        identity_type = request_data.get('identity_type')
+        user_role = request_data.get('user_role')
+        address = request_data.get('address')
+        avatar = request_data.get('avatar')
 
-        queries = "name='{}', label='{}', description='{}'".format(name, label, description)
+        queries = "fullname='{}', \
+            email='{}', \
+            nik='{}', \
+            dob='{}', \
+            gender='{}', \
+            identity='{}', \
+            identity_type='{}', \
+            user_role='{}', \
+            address='{}', \
+            avatar='{}'".format(fullname, email, nik, dob, gender, identity, identity_type, user_role, address, avatar)
         
         data_model = {
             'id': privilege_id,
             'data': queries
         }
 
-        PrivilegeTypeService().update_privilege_type(data_model)
+        UserService().update_user(data_model)
 
         return self.create_response(data)
 
@@ -116,7 +148,7 @@ class PrivilegeTypes(BaseControllers):
             'total_data': 0
         }
 
-        PrivilegeTypeService().delete_privilege_type(privilege_id)
+        UserService().delete_user(privilege_id)
 
         return self.create_response(data)
         
