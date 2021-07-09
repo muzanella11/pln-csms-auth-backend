@@ -6,6 +6,7 @@ from app.controllers.privilege_types import PrivilegeTypes
 from app.controllers.identity_types import IdentityTypes
 from app.controllers.user_roles import UserRoles
 from app.controllers.users import Users
+from app.controllers.authentication import Authentication
 
 @app.route('/api')
 def helloapi():
@@ -127,4 +128,18 @@ def usersupdateapi(id):
 @app.route('/users/<id>', methods=['DELETE'])
 def usersdeleteapi(id):
     return Users(request).delete_data(id)
+##################
+
+## Authentication ##
+@app.route('/auth/signin', methods=['POST'])
+def signinapi():
+    return Authentication(request).signin()
+
+@app.route('/auth/signout', methods=['POST'])
+def signoutapi():
+    return Authentication(request).signout()
+
+@app.route('/auth/whoami/<token>', methods=['POST'])
+def whoamiapi(token):
+    return Authentication(request).whoami(token)
 ##################

@@ -11,7 +11,7 @@ class ModelUsers(Models):
         sql_rows = self.execute("SELECT id, \
             fullname, \
             email, \
-            nik, \
+            nip, \
             dob, \
             gender, \
             identity, \
@@ -38,14 +38,20 @@ class ModelUsers(Models):
 
         return sql_rows
 
-    def get_detail_by(self, columns = None, value = None):
+    def get_detail_by(self, columns = None, value = None, show_password = False):
+        password_field = ''
+        
         if columns == "name":
             value = value.replace('-', ' ')
+
+        if show_password:
+            password_field = 'password,'
 
         sql_rows = self.execute("SELECT id, \
             fullname, \
             email, \
-            nik, \
+            {} \
+            nip, \
             dob, \
             gender, \
             identity, \
@@ -54,7 +60,7 @@ class ModelUsers(Models):
             address, \
             avatar, \
             {}, \
-            {} from `{}` WHERE `{}` = '{}'".format(self.convert_time_zone('created_at'), self.convert_time_zone('updated_at'), self.table_name, columns, value))
+            {} from `{}` WHERE `{}` = '{}'".format(password_field, self.convert_time_zone('created_at'), self.convert_time_zone('updated_at'), self.table_name, columns, value))
 
         convert_attribute_list = [
             'created_at',
@@ -82,7 +88,7 @@ class ModelUsers(Models):
                 `fullname`, \
                 `email`, \
                 `password`, \
-                `nik`, \
+                `nip`, \
                 `dob`, \
                 `gender`, \
                 `identity`, \
@@ -91,7 +97,7 @@ class ModelUsers(Models):
                 `address`, \
                 `avatar`, \
                 `created_at`) VALUES".format(self.table_name) +
-                " ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}', NOW())".format(value.get('fullname'), value.get('email'), value.get('password'), value.get('nik'), value.get('dob'), value.get('gender'), value.get('identity'), value.get('identity_type'), value.get('user_role'), value.get('address'), value.get('avatar'))
+                " ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}', NOW())".format(value.get('fullname'), value.get('email'), value.get('password'), value.get('nip'), value.get('dob'), value.get('gender'), value.get('identity'), value.get('identity_type'), value.get('user_role'), value.get('address'), value.get('avatar'))
             )
         }
 
