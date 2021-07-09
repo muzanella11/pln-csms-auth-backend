@@ -45,8 +45,8 @@ class UserService(object):
 
         return self.base_result
 
-    def generate_user_detail(self, columns = None, value = None):
-        data_sql = getattr(ModelUsers(), 'get_detail_by')(columns, value)
+    def generate_user_detail(self, columns = None, value = None, show_password = False):
+        data_sql = getattr(ModelUsers(), 'get_detail_by')(columns, value, show_password)
 
         raw_data = data_sql.get('data')
 

@@ -74,7 +74,7 @@ class Users(BaseControllers):
         fullname = request_data.get('fullname')
         email = request_data.get('email')
         password = request_data.get('password')
-        nik = request_data.get('nik')
+        nip = request_data.get('nip')
         dob = request_data.get('dob')
         gender = request_data.get('gender')
         identity = request_data.get('identity')
@@ -87,7 +87,7 @@ class Users(BaseControllers):
             'fullname': fullname,
             'email': email,
             'password': password,
-            'nik': nik,
+            'nip': nip,
             'dob': dob,
             'gender': gender,
             'identity': identity,
@@ -112,7 +112,7 @@ class Users(BaseControllers):
 
         fullname = request_data.get('fullname')
         email = request_data.get('email')
-        nik = request_data.get('nik')
+        nip = request_data.get('nip')
         dob = request_data.get('dob')
         gender = request_data.get('gender')
         identity = request_data.get('identity')
@@ -123,14 +123,14 @@ class Users(BaseControllers):
 
         queries = "fullname='{}', \
             email='{}', \
-            nik='{}', \
+            nip='{}', \
             dob='{}', \
             gender='{}', \
             identity='{}', \
             identity_type='{}', \
             user_role='{}', \
             address='{}', \
-            avatar='{}'".format(fullname, email, nik, dob, gender, identity, identity_type, user_role, address, avatar)
+            avatar='{}'".format(fullname, email, nip, dob, gender, identity, identity_type, user_role, address, avatar)
         
         data_model = {
             'id': user_id,
